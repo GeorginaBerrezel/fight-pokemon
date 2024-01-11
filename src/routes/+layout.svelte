@@ -4,6 +4,8 @@
         <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/list-fighters">List fighters</a></li>
+            <li><a href="/create-fighter">Create fighters</a></li>
+
         </ul>
     </nav>
 </menu>
