@@ -1,55 +1,37 @@
-<script lang="ts">
-    import { onMount } from 'svelte';
+<script>
     import pokemonList from '../../lib/data.json';
 
-    let selectedPokemonId = null;
-    let customName = '';
+    let selectedPokemonId = 1;
+    $: customName = pokemonList[selectedPokemonId - 1].name;
 
-    // Ajout d'une fonction pour obtenir les informations d'un Pokémon en fonction de son ID
     function getPokemonInfo(pokemonId) {
         return pokemonList.find(pokemon => pokemon.id === pokemonId);
     }
-
-    onMount(() => {
-        // Fonction pour gérer la sélection du Pokémon
-        function handlePokemonSelection(event) {
-            selectedPokemonId = event.target.value;
-        }
-
-        // Fonction pour soumettre le formulaire
-        function handleSubmit() {
-            // Obtenez les informations du Pokémon sélectionné
-            const selectedPokemon = getPokemonInfo(selectedPokemonId);
-
-            // Traitez le formulaire ici, en utilisant selectedPokemonId, customName et selectedPokemon
-            // Vous pouvez également générer le reste des informations nécessaires (PV, force) ici
-        }
-    });
+    export let data;
 </script>
 
 <h1>Create your Pokemon</h1>
 
-<form on:submit|preventDefault={handleSubmit}>
+<form method="post">
     <label>
-        Choose your pokemon :
-        <select bind:value={selectedPokemonId} on:change={handlePokemonSelection}>
-            {#each pokemonList as { id, name }}
-                <option value={id}>{name}</option>
+        Choose Pokemon :
+        <select bind:value={selectedPokemonId} name="id">
+            {#each pokemonList as { id, name, sprites }}
+                <option value={id}>
+                    {name}
+                    <img src={sprites.front_default} alt={name} style="max-width: 24px; margin-left: 5px;" />
+                </option>
             {/each}
         </select>
     </label>
 
-    <!-- Ajout de l'image du Pokémon sélectionné -->
-    {#if selectedPokemonId !== null}
-        {#if getPokemonInfo(selectedPokemonId) !== undefined}
-            <img src={getPokemonInfo(selectedPokemonId).sprites.front_default} alt="Pokemon Image" style="max-width: 100%; margin-bottom: 10px;" />
-
-        {/if}
+    {#if selectedPokemonId !== null && getPokemonInfo(selectedPokemonId) !== undefined}
+        <img src={getPokemonInfo(selectedPokemonId).sprites.front_default} alt="Pokemon Image" style="max-width: 100%; margin-bottom: 10px;" />
     {/if}
 
     <label>
-        Name of your fighter (optional) :
-        <input type="text" bind:value={customName} />
+        Name of fighter (optional) :
+        <input type="text" name="pokemonName" value={customName} />
     </label>
 
     <button type="submit">Create a fighter</button>

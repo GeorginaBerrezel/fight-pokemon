@@ -1,9 +1,12 @@
 <script lang="ts">
-    export let pokemon: {
-        name: string;
-        id: number;
-        sprites: { front_default: string };
-    };
+    // export let pokemon: {
+    //     name: string;
+    //     id: number;
+    //     sprites: { front_default: string };
+    // };
+    import type {PokemonFighter} from "$lib/types";
+
+    export let pokemon: PokemonFighter;
 </script>
 
 <ul>
